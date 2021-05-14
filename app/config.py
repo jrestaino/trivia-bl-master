@@ -23,3 +23,4 @@ SQLALCHEMY_DATABASE_URI = f"postgresql://{POSTGRES['user']}:" \
                           f"{POSTGRES['pw']}@{POSTGRES['host']}:" \
                           f"{POSTGRES['port']}/{POSTGRES['db']}"
 
+# prueba
