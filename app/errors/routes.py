@@ -11,7 +11,8 @@ def page_not_found(e):
 
 @errors_bp.app_errorhandler(401)
 def unathorized(e):
-    return jsonify(error=str(e)), 401
+    #return jsonify(error=str(e)), 401
+    return render_template('401.html', msj=str(e)), 401
 
 
 @errors_bp.app_errorhandler(HTTPException)

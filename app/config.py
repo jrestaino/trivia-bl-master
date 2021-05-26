@@ -6,9 +6,9 @@ DEBUG = True
 # configuracion BD
 
 POSTGRES = {
-    'user': 'd052835',
-    'pw': 'Pone tu pass aca',
-    'db': 'd052835',
+    'user': 'd095774',
+    'pw': '1d027bc2584822a3',
+    'db': 'd095774',
     'host': '179.27.167.7',
     'port': '5432',
 }
