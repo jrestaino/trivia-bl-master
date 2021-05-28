@@ -33,6 +33,11 @@ with app.app_context():
     r2_Armenia = Respuesta(text="Chile", correcta=True, pregunta=q_mundial)
     r3_Armenia = Respuesta(text="Italia", correcta=False, pregunta=q_mundial)
 
+    q_f1_1 = Pregunta(text="¿Quien salio campeon del mundo en 1991", categoria = c_deporte)
+    r1_f1_1 = Respuesta(text="Senna", correcta=True, pregunta=q_mundial)
+    r1_f1_1 = Respuesta(text="Prost", correcta=False, pregunta=q_mundial)
+    r1_f1_1 = Respuesta(text="Mansell", correcta=False, pregunta=q_mundial)
+
     # Arte
     c_arte = Categoria(descripcion="Arte")
     q_Gioconda = Pregunta(text="¿Quién pintó La Gioconda (Mona Lisa)?", categoria=c_arte)
