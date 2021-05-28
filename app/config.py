@@ -6,10 +6,10 @@ DEBUG = True
 # configuracion BD
 
 POSTGRES = {
-    'user': 'd095774',
-    'pw': '1d027bc2584822a3',
-    'db': 'd095774',
-    'host': '179.27.167.7',
+    'user': '----',
+    'pw': '----',
+    'db': '----',
+    'host': '----,
     'port': '5432',
 }
 
