@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from app.public.models import Categoria, Pregunta, Respuesta
-from app.auth.models import User
+from app.auth.models import User, Role
 
 from app import create_app, db
 app = create_app()
@@ -50,16 +50,20 @@ with app.app_context():
     r2_Gogh = Respuesta(text="XIX", correcta=True, pregunta=q_Gogh)
     r3_Gogh = Respuesta(text="XVII", correcta=False, pregunta=q_Gogh)
 
+    '''
     #Usuarios
-    q_u1 = User(name = "Gustavo", email = "gsignorele@antel.com.uy")
+    u_u1 = User(name = "Jose", email = "jrestaino@antel.com.uy")
     # el pass lo seteamos con el método set_password para que se guarde con hash
-    q_u1.set_password("blabla")
-    # por defecto, el usuario no es admin
-    q_u2 = User(name = "MariaLaDelBarrio", email = "delBarrioEsMaria@antel.com.uy")
-    q_u2.set_password("12345")
-    q_u3 = User(name = "Rodrigo", email = "rgperez@antel.com.uy")
-    q_u3.set_password("123456")
+    u_u1.set_password("jose10")
 
+
+    # lo hago agent
+    u_u2 = User(name = "Maria", email = "maria@antel.com.uy")
+    u_u2.set_password("maria10")
+
+    u_u3 = User(name = "Natalia", email = "natalia@antel.com.uy")
+    u_u3.set_password("natalia10")
+    '''
 
     db.session.add(c_arte)
     db.session.add(q_Gioconda)
@@ -77,10 +81,23 @@ with app.app_context():
     db.session.add(q_Armenia)
     db.session.add(q_mundial)
 
-    db.session.add(q_u1)
-    db.session.add(q_u2)
-    db.session.add(q_u3)
+    '''
+    db.session.add(u_u1)
+    db.session.add(u_u2)
+    db.session.add(u_u3)
     db.session.commit()
+    
+    # le agrego los roles Agent y Admin
+    u_u1.roles.append(Role(name='Admin'))
+    u_u1.roles.append(Role(name='Agent'))
+    u_u2.roles.append(Role(name='Agent'))
+    u_u3.roles.append(Role(name='Agent'))
+    db.session.add(u_u1)
+    db.session.add(u_u2)
+    db.session.add(u_u3)
+    '''
+    db.session.commit()
+
 
     # creamos otros usuarios (…) y los recorremos
     categorias = Categoria.query.all()
@@ -94,3 +111,18 @@ with app.app_context():
     cat = Categoria.query.get(1)
     print(cat)
 
+
+    if not User.query.filter(User.email == 'gsignorele@antel.com.uy').first():
+        user = User(name="Gustavo",  email="gsignorele@antel.com.uy")
+        user.set_password("blabla")
+        db.session.add(user)
+        db.session.commit()
+
+    # Create 'admin@example.com' user with 'Admin' and 'Agent' roles
+    if not User.query.filter(User.email == 'signorele@gmail.com').first():
+        user = User(name="Admin",  email="signorele@gmail.com", is_admin=True)
+        user.set_password("blabla")
+        user.roles.append(Role(name='Admin'))
+        user.roles.append(Role(name='Agent'))
+        db.session.add(user)
+        db.session.commit()

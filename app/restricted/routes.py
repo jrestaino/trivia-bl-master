@@ -33,12 +33,13 @@ def on_identity_loaded(sender, identity):
 class MyModelView(ModelView):
     def is_accessible(self):
         has_auth = current_user.is_authenticated
-        return has_auth
-        #has_perm = admin_permission.allows(g.identity)
-        #return has_auth and has_perm
+        role_admin = False
+        if has_auth:
+            role_admin = current_user.is_admin
+        return has_auth and role_admin
 
     def inaccessible_callback(self, name, **kwargs):
-        return redirect(url_for('login', next=request.url))
+        return redirect(url_for('auth.login', next=request.url))
 
 class MyAdminIndexView(AdminIndexView):
     def is_accessible(self):

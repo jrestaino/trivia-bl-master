@@ -4,6 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_admin import Admin
 #from flask_principal import Principal
 #from flask_migrate import Migrate
+from flask_user import UserManager
 
 login_manager = LoginManager()
 db = SQLAlchemy()
@@ -39,6 +40,8 @@ def create_app(config_name='config.py'):
     from .restricted import restricted_bp
     app.register_blueprint(restricted_bp)
 
+    from .auth.models import User
+    user_manager = UserManager(app, db, User)
 
     return app
 
