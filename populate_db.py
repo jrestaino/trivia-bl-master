@@ -113,15 +113,15 @@ with app.app_context():
 
 
     if not User.query.filter(User.email == 'gsignorele@antel.com.uy').first():
-        user = User(name="Gustavo",  email="gsignorele@antel.com.uy")
-        user.set_password("blabla")
+        user = User(name="jose",  email="jrestaino@gmail.com")
+        user.set_password("jose10")
         db.session.add(user)
         db.session.commit()
 
     # Create 'admin@example.com' user with 'Admin' and 'Agent' roles
-    if not User.query.filter(User.email == 'signorele@gmail.com').first():
-        user = User(name="Admin",  email="signorele@gmail.com", is_admin=True)
-        user.set_password("blabla")
+    if not User.query.filter(User.email == 'jrestaino@gmail.com').first():
+        user = User(name="Admin",  email="jrestaino@gmail.com", is_admin=True)
+        user.set_password("jose10")
         user.roles.append(Role(name='Admin'))
         user.roles.append(Role(name='Agent'))
         db.session.add(user)

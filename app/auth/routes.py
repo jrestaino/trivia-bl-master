@@ -4,12 +4,12 @@ from . import auth_bp
 from app import login_manager
 from flask import render_template, redirect, url_for, flash, request, session, current_app
 #from flask_principal import Principal, Permission, Identity, AnonymousIdentity, RoleNeed, UserNeed, identity_loaded, identity_changed
-
 from .models import User
 from .forms.login import LoginForm
 from .forms.register import RegisterForm
-
+from .utils import generate_confirmation_token, confirm_token, send_email
 from flask_login import LoginManager, current_user, login_user, login_required, logout_user
+import datetime
 
 #le decimos a Flask-Login como obtener un usuario
 @login_manager.user_loader
@@ -18,8 +18,8 @@ def load_user(user_id):
 
 @auth_bp.route('/trivia/login', methods=['GET', 'POST'])
 def login():
-    if current_user.is_authenticated:
-        return redirect(url_for('public.index_trivia'))
+    #if current_user.is_authenticated:
+    #    return redirect(url_for('public.index_trivia'))
     form = LoginForm()
     if form.validate_on_submit():
         #get by email valida
@@ -60,12 +60,36 @@ def register():
             user = User(name=username, email=email)
             user.set_password(password)
             user.save()
+            # Agrego codigo del token
+            token = generate_confirmation_token(user.email)
+            confirm_url = url_for('auth.confirm_email', token=token, _external=True)
+            html = render_template('activate_register.html', confirm_url=confirm_url)
+            send_email(user.email, current_app.config['MAIL_SUBJECT'], html)
             # Dejamos al usuario logueado
-            login_user(user, remember=True)
-            app_actual = current_app._get_current_object()
+            #login_user(user, remember=True)
+            #app_actual = current_app._get_current_object()
             #identity_changed.send(app_actual, identity=Identity(user.id))
             return redirect(url_for('public.index_trivia'))
     return render_template("register.html", form=form)
+
+# Confirmo el token
+@auth_bp.route('/trivia/confirm/<token>')
+def confirm_email(token):
+    try:
+        email = confirm_token(token)
+    except:
+        flash('The confirmation link is invalid or has expired.', 'danger')
+    user = User.query.filter_by(email=email).first_or_404()
+    if user.is_confirmed:
+        flash('Account already confirmed. Please login.', 'success')
+    else:
+        user.is_confirmed = True
+        user.email_confirmed_at = datetime.datetime.now()
+        user.save()
+
+        flash('You have confirmed your account. Thanks!', 'success')
+    return redirect(url_for('public.index_trivia'))
+
 
 
 @auth_bp.route('/trivia/logout')
