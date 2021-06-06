@@ -5,10 +5,12 @@ from flask_admin import Admin
 #from flask_principal import Principal
 #from flask_migrate import Migrate
 from flask_user import UserManager
+from flask_mail import Mail
 
 login_manager = LoginManager()
 db = SQLAlchemy()
 admin = Admin()
+mail = Mail()
 #principal = Principal()
 #migrate = Migrate()
 
@@ -23,6 +25,7 @@ def create_app(config_name='config.py'):
     login_manager.init_app(app)
     db.init_app(app)
     admin.init_app(app)
+    mail.init_app(app)
     #principal.init_app(app)
     # Se inicializa el objeto migrate
     #migrate.init_app(app, db)

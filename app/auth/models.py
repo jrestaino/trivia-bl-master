@@ -10,6 +10,7 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(128), nullable=False)
     is_admin = db.Column(db.Boolean, nullable=False, default=False)
     email_confirmed_at = db.Column(db.DateTime())
+    is_confirmed = db.Column(db.Boolean(), nullable=True)
 
     #roles = db.relationship('Role', backref='user', lazy='dynamic')
     roles = db.relationship('Role', secondary='user_roles')
