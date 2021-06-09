@@ -6,11 +6,15 @@ from flask_admin import Admin
 #from flask_migrate import Migrate
 from flask_user import UserManager
 from flask_mail import Mail
+from flask_bootstrap import Bootstrap
+
+
 
 login_manager = LoginManager()
 db = SQLAlchemy()
 admin = Admin()
 mail = Mail()
+bootsrap = Bootstrap()
 #principal = Principal()
 #migrate = Migrate()
 
@@ -21,6 +25,7 @@ def create_app(config_name='config.py'):
 
     # lee la config desde el archivo config.py
     app.config.from_pyfile(config_name)
+    bootsrap.init_app(app)
 
     login_manager.init_app(app)
     db.init_app(app)
